@@ -1,5 +1,23 @@
 # %%
 print('hello world')
+import geopandas as gpd
+import numpy as np
+
+# Baca file shapefile (.shp)
+lokasi_data=r'/home/usr_rda/verifikasi/usecase/Batas_Wilayah_KelurahanDesa_10K_AR.shp'
+#lokasi_data=r'C:\Users\User\Downloads\latihan_python2\Batas_Wilayah_KelurahanDesa_10K_AR.shp'
+gdf = gpd.read_file(lokasi_data)
+
+
+# %%
+gdf=gdf[['KDCPUM','geometry']]
+
+# %%
+gdf[gdf.select_dtypes(include='object').columns]=gdf.select_dtypes(include='object').apply(lambda x:x.str.upper())
+
+# %%
+# Pastikan shapefile juga di EPSG:4326, kalau beda Ã¢â€ â€™ konversi
+gdf = gdf.to_crs("EPSG:4326")
 
 # %% [markdown]
 # cek tanggal 
@@ -111,24 +129,7 @@ while tanggal_awal<=tanggal_akhir:
     # joinkeun gdf
 
     # %%
-    import geopandas as gpd
-    import numpy as np
-
-    # Baca file shapefile (.shp)
-    lokasi_data=r'/home/usr_rda/verifikasi/usecase/Batas_Wilayah_KelurahanDesa_10K_AR.shp'
-#lokasi_data=r'C:\Users\User\Downloads\latihan_python2\Batas_Wilayah_KelurahanDesa_10K_AR.shp'
-    gdf = gpd.read_file(lokasi_data)
-
-
-    # %%
-    gdf=gdf[['KDCPUM','geometry']]
-
-    # %%
-    gdf[gdf.select_dtypes(include='object').columns]=gdf.select_dtypes(include='object').apply(lambda x:x.str.upper())
-
-    # %%
-    # Pastikan shapefile juga di EPSG:4326, kalau beda Ã¢â€ â€™ konversi
-    gdf = gdf.to_crs("EPSG:4326")
+    
 
     # %% [markdown]
     # maser desa dan kantor
